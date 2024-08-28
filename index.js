@@ -20,29 +20,31 @@ client.once('ready', () => {
 // Function to check for the latest version
 const checkForUpdates = async () => {
     try {
-        const response = await axios.get('http://setup.rbxcdn.com/version');
-        const currentVersion = response.data.trim();
+        const response = await axios.get('https://clientsettingscdn.roblox.com/v2/client-version/WindowsPlayer/channel/LIVE');
+        const data = response.data;
 
-        // Check if there's a previous version stored and if the new version is different
-        if (lastVersion && lastVersion !== currentVersion) {
+        const clientVersionUpload = data.clientVersionUpload;
+
+        if (lastVersion && lastVersion !== clientVersionUpload) {
+            // put the channel you want updates to go to, yeah
             const channel = client.channels.cache.get('YOUR-CHANNEL-HERE');
             if (channel) {
-                // Create the embed
                 const embed = new EmbedBuilder()
-                    .setTitle('🚨 New Roblox Version Released!')
-                    .setColor(0x00FF00)
+                    .setTitle('Roblox Update')
+                    .setColor(16711680)
                     .setTimestamp()
-                    .setFooter({ text: 'Roblox Version Tracker', iconURL: 'https://www.roblox.com/favicon.ico' })
+                    .setFooter({ text: 'Roblox Version Tracker', iconURL: 'https://roblox.com/favicon.ico' })
+                    .setDescription('Roblox has updated.')
                     .addFields(
-                        { name: 'Previous Version', value: `\`\`${lastVersion}\`\``, inline: false },
-                        { name: 'Current Version', value: `\`\`${currentVersion}\`\``, inline: true }
+                        { name: 'Previous Version', value: `\`\`${lastVersion}\`\``, inline: true },
+                        { name: 'Current Version', value: `\`\`${clientVersionUpload}\`\``, inline: true }
                     );
                 channel.send({ embeds: [embed] });
             }
         }
 
-        lastVersion = currentVersion;
-        fs.writeFileSync('lastVersion.txt', currentVersion);
+        lastVersion = clientVersionUpload;
+        fs.writeFileSync('lastVersion.txt', clientVersionUpload);
     } catch (error) {
         console.error('Error checking for updates:', error);
     }
