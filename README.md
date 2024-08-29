@@ -15,8 +15,8 @@ a Discord bot to track the latest Roblox update.
 1. Clone the Repository:
    
    ```bash
-   git clone https://github.com/tazlsucks/roblox-version-tracker.git
-   cd roblox-version-tracker
+   git clone https://github.com/tazlsucks/roblox-update-tracker.git
+   cd roblox-update-tracker
    ```
 
 2. Install Dependencies:
